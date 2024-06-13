@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout";
-import { Axios } from "axios";
+import axios from "axios";
 import { useState } from "react";
 
 
@@ -7,11 +7,14 @@ export default function NewProduct() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    async function createProduct() {
-        const data = {title,description,price};
-       await Axios.post('api/products', data);
-       
+    const [goProducts, setGoToProducts]= useState(false);
+   async function createProduct(ev) {
+        ev.preventDefault();
+        const data ={title,description,price};
+        await axios.post('/api/products', data);
+        setGoToProducts(true);
     }
+    
     return (
         <Layout>
             <form onSubmit={createProduct}>
