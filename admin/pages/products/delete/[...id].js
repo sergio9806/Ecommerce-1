@@ -19,9 +19,9 @@ export default function DeleteProductPage() {
     function goBack() {
         router.push('/Products')
     }
-   async function  deleteProduct(){
-     await axios.delete('/api/products?id=' + id);
-     goBack();
+    async function deleteProduct() {
+        await axios.delete('/api/products?id=' + id);
+        goBack();
     }
     return (
         <Layout>

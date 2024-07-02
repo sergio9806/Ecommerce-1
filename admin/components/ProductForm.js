@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import axios from "axios";
 import Spinner from "./spinner";
 
@@ -9,19 +9,19 @@ export default function ProductForm({
     title: existingTitle,
     description: existingDescription,
     price: existingPrice,
-    images:existingImages,
+    images: existingImages,
 }) {
-    const [title,setTitle] = useState(existingTitle || '');
-  const [description,setDescription] = useState(existingDescription || '');
-  const [price,setPrice] = useState(existingPrice || '');
-  const [images,setImages] = useState(existingImages || []);
-  const [goToProducts,setGoToProducts] = useState(false);
-  const [isUploading,setIsUploading] = useState(false);
-  const router = useRouter();
+    const [title, setTitle] = useState(existingTitle || '');
+    const [description, setDescription] = useState(existingDescription || '');
+    const [price, setPrice] = useState(existingPrice || '');
+    const [images, setImages] = useState(existingImages || []);
+    const [goToProducts, setGoToProducts] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const router = useRouter();
     async function saveProduct(ev) {
         ev.preventDefault();
 
-        const data = { title, description, price,images };
+        const data = { title, description, price, images };
         if (_id) {
             //update 
             await axios.put('/api/products', { ...data, _id });
@@ -37,22 +37,22 @@ export default function ProductForm({
         router.push('/Products')
     }
     //subir fotos
-    
+
     async function uploadImages(ev) {
         const files = ev.target?.files;
         if (files?.length > 0) {
-          setIsUploading(true);
-          const data = new FormData();
-          for (const file of files) {
-            data.append('file', file);
-          }
-         const res = await axios.post('/api/upload', data);
-          setImages(oldImages => {
-            return [...oldImages, ...res.data.links];
-          });
-          setIsUploading(false);
+            setIsUploading(true);
+            const data = new FormData();
+            for (const file of files) {
+                data.append('file', file);
+            }
+            const res = await axios.post('/api/upload', data);
+            setImages(oldImages => {
+                return [...oldImages, ...res.data.links];
+            });
+            setIsUploading(false);
         }
-      }
+    }
     return (
 
         <form className="p-4" onSubmit={saveProduct}>
@@ -63,16 +63,16 @@ export default function ProductForm({
 
             <label>Fotos</label>
             <div className="mb-2 flex flex-wrap gap-1">
-            {!!images?.length && images.map(link =>(
-                <div key={link} className="h-24">
-                   <img src={link} alt="" className="rounded-lg"/>
-                </div>
-            ))}
-            {isUploading && (
-                <div className="h-24">
-                  <Spinner/>
-                </div>
-            )}
+                {!!images?.length && images.map(link => (
+                    <div key={link} className="h-24">
+                        <img src={link} alt="" className="rounded-lg" />
+                    </div>
+                ))}
+                {isUploading && (
+                    <div className="h-24">
+                        <Spinner />
+                    </div>
+                )}
                 <label className=" w-24 h-24  text-center flex flex-col items-center cursor-pointer
                 justify-center text-sm gap-1 text-gray-500 rounded-lg bg-gray-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
@@ -83,7 +83,7 @@ export default function ProductForm({
                     </div>
                     <input type="file" onChange={uploadImages} className="hidden"></input>
                 </label>
-               
+
             </div>
             <label>Descripción</label>
             <textarea placeholder="Descripción" value={description} onChange={ev => setDescription(ev.target.value)} />

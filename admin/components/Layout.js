@@ -11,8 +11,11 @@ export default function Layout({ children }) {
             </div>
         )
     }
+
     return (
+        
         <div className="bg-blue-900 min-h-screen flex">
+            {/* navbar */}
             <Nav />
             <div className="bg-white flex-grow mt-2 mb-2 mr-2 rounded-lg p-4">
                 {children}

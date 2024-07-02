@@ -1,16 +1,16 @@
 import multiparty from 'multiparty';
-import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import mime from 'mime-types';
 const bucketName = 'next24-ecommerce';
 
-export default async function handle(req,res) {
+export default async function handle(req, res) {
 
   const form = new multiparty.Form();
-  const {fields,files} = await new Promise((resolve,reject) => {
+  const { fields, files } = await new Promise((resolve, reject) => {
     form.parse(req, (err, fields, files) => {
       if (err) reject(err);
-      resolve({fields,files});
+      resolve({ fields, files });
     });
   });
   console.log('length:', files.file.length);
@@ -24,7 +24,7 @@ export default async function handle(req,res) {
   const links = [];
   for (const file of files.file) {
     const ext = file.originalFilename.split('.').pop();
-    const newFilename =Date.now()+'.'+ext;
+    const newFilename = Date.now() + '.' + ext;
     await client.send(new PutObjectCommand({
       Bucket: bucketName,
       Key: newFilename,
@@ -35,9 +35,9 @@ export default async function handle(req,res) {
     const link = `https://${bucketName}.s3.amazonaws.com/${newFilename}`;
     links.push(link);
   }
-  return res.json({links});
+  return res.json({ links });
 }
 
 export const config = {
-  api: {bodyParser: false},
+  api: { bodyParser: false },
 };
