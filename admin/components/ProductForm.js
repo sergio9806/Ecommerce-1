@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Spinner from "./spinner";
-
+import { ReactSortable } from "react-sortablejs";
 
 export default function ProductForm({
     _id,
@@ -53,6 +53,9 @@ export default function ProductForm({
             setIsUploading(false);
         }
     }
+    function updateImagesOrder (images){
+      setImages(images);
+    }
     return (
 
         <form className="p-4" onSubmit={saveProduct}>
@@ -63,13 +66,17 @@ export default function ProductForm({
 
             <label>Fotos</label>
             <div className="mb-2 flex flex-wrap gap-1">
+                <ReactSortable list={images} 
+                className="flex flex-wrap gap-1"
+                setList={updateImagesOrder}>
                 {!!images?.length && images.map(link => (
                     <div key={link} className="h-24">
                         <img src={link} alt="" className="rounded-lg" />
                     </div>
                 ))}
+                </ReactSortable >
                 {isUploading && (
-                    <div className="h-24">
+                    <div className="h-24 p-1  flex items-center">
                         <Spinner />
                     </div>
                 )}
