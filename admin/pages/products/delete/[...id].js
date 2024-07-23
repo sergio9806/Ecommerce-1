@@ -28,7 +28,7 @@ export default function DeleteProductPage() {
             <h1 className="text-center">¿Realmente quiere aliminar &nbsp; "{productInfo?.title}"?</h1>
             <div className="flex gap-2 justify-center">
                 <button className="btn-red" onClick={deleteProduct}>Si</button>
-                <button className="btn-defult" onClick={goBack}>No</button>
+                <button className="btn-default" onClick={goBack}>No</button>
             </div>
 
         </Layout>
